@@ -8,8 +8,7 @@ console.log(serverURL);
 // https://github.com/john-doherty/swiped-events/blob/master/src/swiped-events.js
 
 //!-------------------- DOM Variables ------------------------------------
-const loginForm = document.getElementById("login-form");
-const loginBtn = document.getElementById("login-Btn");
+// const loginBtn = document.getElementById("login-Btn");
 const loginSection = document.getElementById("loginSection");
 const switchBtn = document.getElementById("switchBtn");
 const email = document.getElementById("emailInput");
@@ -23,7 +22,7 @@ const ingredientCheck = document.getElementsByClassName("ingredientCheck");
 
 loginSection?.addEventListener("submit", login);
 
-loginForm?.addEventListener("submit", login);
+// loginForm?.addEventListener("submit", login);
 
 switchBtn?.addEventListener("click", toggleSignup);
 
@@ -1736,6 +1735,7 @@ async function findWeeklyMeals(date) {
 }
 
 async function signup(e) {
+  console.log("signing up...")
   e.preventDefault();
   if (family.value.length === 0) {
     console.log("No Family");
@@ -1760,11 +1760,12 @@ async function signup(e) {
 }
 
 async function login(e) {
+  console.log('logging in...')
   let url;
-  if (document.getElementById("submitLogin").textContent === "Submit") {
+  if (switchBtn.textContent === "Sign Up?") {
     url = `${serverURL}/user/login`;
   } else if (
-    document.getElementById("submitLogin").textContent === "Register"
+    switchBtn.textContent === "Login?"
   ) {
     ("registering");
     url = `${serverURL}/user/signup`;
@@ -1788,7 +1789,7 @@ async function login(e) {
       body: JSON.stringify(loginBody),
     });
     const data = await res.json();
-
+    console.log("data: ",data)
     if (
       data.message === "Login successful!" ||
       data.message === "Success! User Created!"
@@ -1801,7 +1802,17 @@ async function login(e) {
       console.log("checking for token");
       console.log("token: ", token);
       // console.log(checkForToken())
+      
       if (checkForToken() === true) {
+        if (!shoppingListData) {
+          shoppingListData = await fetchShoppingList();
+        }
+        if (!recipeListData) {
+          recipeListData = await fetchRecipeList();
+        }
+      
+        console.log(shoppingListData)
+        console.log(recipeListData)
         console.log("creating menu page...");
         createMenuPage();
       } else if (!document.getElementById("title_page")) {
@@ -2201,17 +2212,17 @@ function toggleSignup() {
   if (switchBtn.textContent === "Login?") {
     family.removeAttribute("required", true);
     family.style.visibility = "hidden";
-    loginForm.removeEventListener("submit", login);
-    loginForm.addEventListener("submit", signup);
-    switchBtn.textContent = "Signup?";
-    loginBtn.textContent = "Login";
-  } else if (switchBtn.textContent === "Signup?") {
+    loginSection?.removeEventListener("submit", login);
+    loginSection?.addEventListener("submit", signup);
+    switchBtn.textContent = "Sign Up?";
+    // loginBtn.textContent = "Login";
+  } else if (switchBtn.textContent === "Sign Up?") {
     family.style.visibility = "visible";
     family.setAttribute("required", true);
-    loginForm.removeEventListener("submit", signup);
-    loginForm.addEventListener("submit", login);
+    loginSection?.removeEventListener("submit", signup);
+    loginSection?.addEventListener("submit", login);
     switchBtn.textContent = "Login?";
-    loginBtn.textContent = "Sign Up";
+    // loginBtn.textContent = "Login";
   }
 }
 
