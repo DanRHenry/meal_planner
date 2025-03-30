@@ -1,0 +1,678 @@
+body {
+    margin: 0;
+    background-color: whitesmoke;
+}
+
+#title-header-row {
+    margin-top: 1em;
+    color: white;
+    padding: 5px;
+    /* background-color: rebeccapurple; */
+}
+
+#title-header{
+    margin: 0;
+    text-align: center;
+}
+
+#title_page {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    /* flex-direction: row; */
+    align-items: center;
+    background-color: rgb(0, 0, 143);
+    transition: background-color 1s;
+}
+
+#loginSection{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10em;
+    color: white;
+}
+
+#familyInputLabel, #familyInput {
+    visibility: hidden;
+}
+
+#submitLogin{
+    margin-top: 1em;
+    margin-bottom: 2em;
+    width: fit-content;
+    align-self: center;
+}
+#load_page {
+    margin: auto;
+}
+
+#menuPage {
+    position: absolute;
+    background-color: rgb(147, 192, 147);
+    min-width: 100%;
+    min-height: 100%;
+}
+
+#navbar {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    height: 4em;
+    border-bottom: 2px solid black;
+    /* border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em; */
+    background-color: rgb(146, 146, 192);
+    font-size: small;
+}
+
+#navbar > button {
+    margin: auto;
+    background-color: gray;
+    color: white;
+    height: 95%;
+    width: 100%;
+}
+
+button:hover {
+    color: white;
+    background-color: gray;
+}
+
+#navbar > button:hover {
+    color: rgb(212, 212, 212);
+}
+
+.meals {
+    /* align-self: center; */
+    width: 100%;
+    max-width: fit-content;
+    /* min-width: 5em; */
+}
+
+.meals:hover {
+    color: white;
+    background-color: gray;
+}
+
+.weektabledays {
+    text-align: center;
+    /* display: grid; */
+    /* grid-template-columns: auto; */
+}
+
+#shoppingListContainer{
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    min-height: 100%;
+}
+
+#shoppingListTitle, .headers, #mealPlanningTitle {
+     padding-top: 3px;
+    font-weight: bolder;
+    padding-left: 1em;
+    text-align: center;
+    min-width: fit-content;
+    background-color: gray;
+    height: 2em;
+    border-bottom: 2px solid black;
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+    margin-top: 2px;
+}
+
+#mealPlanningTitle {
+    width: 100%;
+}
+
+#calendarControlRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 10vw;
+    /* position: absolute; */
+    /* align-items: center; */
+}
+
+/* #calendarControlRow > button:hover {
+    color: white;
+    background-color: gray;
+} */
+
+#dateDisplay {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+#prevWeekBtn {
+    display: none;
+    /* display: inline-block;
+    position: absolute;
+    left: auto;
+    margin-right: 22em;
+    top: .5em; */
+}
+
+#nextWeekBtn {
+    display: none;
+    /* display: inline-block;
+    position: absolute;
+    right: auto;
+    margin-left: 29em;
+    top: .5em; */
+}
+
+#recipeIngredients,  #recipesContainer {
+    overflow-y: auto;
+}
+
+
+#family {
+    visibility: hidden;
+}
+
+#recipeIngredients, #recipesContainer {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#recipeItem, #selections {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(182, 182, 182);
+}
+
+#recipeListTable {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#recipeListTableBody {
+    width: 100%;
+}
+
+#recipeIngredients {
+    overflow-y: auto;
+    position: relative;
+    top: 0;
+}
+
+
+.headers, #headers, #recipeHeaders {
+    user-select: none;
+    font-weight: bold;
+}
+
+#headers, .headers {
+    top: 0;
+    width: 100%;
+    background-color: rgb(141, 141, 141);
+    text-align: center;
+}
+
+#checkboxHeader {
+    width: 5.5em;
+}
+
+#checkboxHeader:hover {
+    color: white;
+}
+
+.mainContent,.shoppingListTableInputLine, .shoppingListItems, .recipeGroup{
+    text-align: center;
+    padding-left: 10em;
+    margin-left: 10em;
+    background-color: rgb(211, 211, 211);
+    user-select: none;
+}
+
+.mainContent {
+    background-color: rgb(223, 223, 223);
+
+}
+
+.mainContent:nth-child(odd) {
+    background-color: rgb(255, 255, 212);
+
+}
+
+.recipeGroup {
+    background-color: rgb(211, 211, 211);
+}
+
+.recipeGroup:nth-child(odd) {
+    background-color: white;
+}
+
+.shoppingListTableInputLine:nth-child(odd), .shoppingListItems:nth-child(odd) {
+    background-color: white;
+}
+
+.mainContent:hover, .shoppingListItems:hover, .recipeGroup:hover {
+    background-color: gray;
+    color: white;
+}
+
+#removeSelectedItemsContainer{
+    text-align: center;
+}
+
+#removeSelectedItems{
+    user-select: none;
+    border: 2px solid gray;
+    border-radius: .5em;
+    text-align: center;
+}
+
+#addItem:hover {
+    background-color: gray;
+    color: white;
+}
+
+#addItem:active {
+    background-color: black;
+}
+
+.ingredient,.recipeName {
+    width: 100%;
+    text-align: center;
+    overflow: auto;
+}
+
+.qty, #qtyInput, .qty > input, #addNewItem, #qtyHeader {
+    width: 3em;
+}
+
+#itemInput {
+    text-align: center;
+    width: 100%;
+}
+
+#addRecipeContainer {
+    padding-top: 1em;
+    text-align: center;
+    padding-bottom: 1em;
+}
+
+.recipeCheck, .shoppingListCheckBoxes, .ingredientCheck {
+    padding-left: 1em;
+}
+
+#addRecipe, #deleteRecipe, #newIngredientInputFieldBtn, #newRecipeInputBtn {
+    border: 2px solid gray;
+    border-radius: .5em;
+}
+
+/* .button:hover, #removeSelectedItems:hover {
+    color: white;
+    background-color: gray;
+} */
+
+#addRecipe {
+    margin-right: 1em;
+}
+
+
+.qty > input {
+    text-align: right;
+}
+
+#addRecipeIngredientsToShoppingListBtnContainer{
+    padding-top: .5em;
+    padding-bottom: .5em;
+    text-align: center;
+}
+
+#ingredientInputForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#timeAndTemp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#recipeCookTimeInputField, #recipeTempInputField {
+    width: 7em;
+    text-align: center;
+}
+
+#numberOfServingsInputField, #numOfServingsLabel {
+    display: inline;
+}
+
+#numberOfServingsInputField{
+    width: 3em;
+}
+
+#noOfServingsInput {
+    width: 3em;
+}
+
+.newIngredientQtys {
+    width: 1.5em;
+    margin-right: .5em;
+}
+
+#newRecipeInputBtn {
+    margin-top: 1em;
+}
+
+#newRecipeNameInput, .ingredients {
+    width: 70%;
+    text-align: center;
+    margin-top: 1em;
+}
+
+.recipeName {
+    margin-bottom: 5px;
+    text-indent: 3em;
+}
+
+#recipeText {
+    color: white;
+    font-size: medium;
+    min-width: fit-content;
+}
+
+#recipeText > div {
+   max-width: 100%;
+}
+
+#recipeText > h2 {
+    margin-left: 1em;
+    font-weight: bold;
+}
+
+#instructionsContainer {
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+    min-height: fit-content;
+    overflow-y: auto;
+}
+
+#currentRecipeDescription{
+    margin: 0;
+    margin-bottom: 1em;
+    margin-left: 8%;
+}
+
+.instructionsCheckboxes {
+    margin-left: 10%;
+    margin-right: 1em;
+}
+
+.instructionsText {
+    color: white;
+}
+
+#instructions {
+    overflow-y: auto;
+    font-size: 18px;
+    background-color: white;
+    color: black;
+    border: solid black 2px;
+    border-radius: .5em;
+    padding: 1em;
+    height: 50vh;
+}
+
+.instructionsRows {
+    display: flex;
+    flex-direction: row;
+    user-select: none;
+}
+
+#listContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.temperatureDivs, .timeDivs, #totalCalories, #caloriesPerServing, #numberOfServings {
+    margin-left: 8%;
+}
+
+#recipeIngredientsColumn_1 {
+    margin-top: 1em;
+    margin-left: auto;
+}
+
+#recipeIngredientsColumn_2 {
+    margin-top: 1em;
+    margin-right: auto;
+    margin-left: 1em;
+}
+
+#recipeButtonContainer, #editBreakfastCloseButtonContainer, #editLunchCloseButtonContainer, #editDinnerCloseButtonContainer, #editSnacksCloseButtonContainer {
+    text-align: center;
+}
+
+#closeRecipeWindowBtn {
+    margin-top: 2em;
+    margin-bottom: 3px;
+    width: fit-content;
+}
+
+.recipeStepRows {
+    display: flex;
+    flex-direction: row;
+    width: 87%;
+    margin-top: 3px;
+}
+
+.recipeStepLabels{
+    margin-left: .5em;
+    margin-right: 1em;
+    width: 5em;
+}
+
+.recipeSteps {
+    width: 100%;
+    text-indent: 3px;
+}
+
+#recipeItem {
+    align-items: center;
+    max-width: 100%;
+    padding-bottom: 1em;
+}
+
+.newIngredientFieldBtns {
+    width: 3em;
+    margin-left: .75em;
+}
+
+.newIngredients {
+    text-align: center;
+}
+
+#recipeContent {
+    overflow-y: hidden;
+    max-width: 100%;
+}
+
+
+#newIngredientSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: gray;
+}
+
+#newIngredientGrid{
+    align-self: center;
+    min-width: 85%;
+    width: 85%;
+}
+
+#recipeTableBody {
+width: 100%;
+}
+
+#recipeInstructionsInputField {
+    margin-top: 1em;
+    width: 85%;
+    min-height: 8em;
+    padding-left: 1em;
+    padding-top: 1em;
+}
+
+.newIngredients {
+    min-width: 5em;
+    text-align: center;
+}
+
+.newIngredientAmtInputs {
+    text-align: center;
+    min-width: 2em;
+}
+
+.newIngredientCalorieInputs {
+    text-align: center;
+}
+
+.newIngredientFieldBtn {
+    width: 2em;
+}
+
+#newIngredientGrid {
+    display: grid;
+    max-width: 100vw;
+    grid-template-columns: 40% 15% 17% 12% 12%;
+}
+
+.newIngredients, .newIngredientAmtInputs, .measurementUnit, .newIngredientCalorieInputs {
+    background-color: white;
+    border: 1px solid black;
+}
+
+#calorieCountingWindow {
+    height: 100vh;
+    width: 100vw;
+    background-color: green;
+}
+
+#mealPlanningGrid {
+    /* width: 100%; */
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    text-align: center;
+    min-height: 40vh;
+    font-size: small;
+    /* background-color: red; */
+}
+
+#mealPlanningGrid > div > button {
+    min-width: 90%;
+}
+#mealPlanningGrid > tbody > td {
+    text-align: center;
+}
+
+.mealButtons:hover {
+    color: white;
+    background-color: gray;
+    /* background-color: rebeccapurple; */
+}
+
+#suggestedMeal{
+    text-align: center;
+    min-width: fit-content;
+}
+
+.Breakfast_row, .Lunch_row, .Dinner_row, .Snacks_row, .Calories_row, .dailyCalorieTotal {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.day {
+    margin-top: auto;
+}
+
+/* .edit_Breakfast_button{
+    color: white;
+    background-color: blue;
+} */
+
+#breakfastSelections, .breakfastItemQuantity{
+    max-width: 13em;
+    font-size: small;
+}
+
+#addBreakfastItemBtn, .removeBreakfastItemRowBtn {
+    width: 2em;
+    /* border-radius: 1em; */
+}
+
+#recipeWindow, #breakfastWindow, #lunchWindow, #dinnerWindow, #snacksWindow{
+    /* display: none; */
+    /* z-index: 2; */
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    /* left: 0; */
+    /* top: 0; */
+    background-color: rgba(0, 0, 0, 0);
+    margin: 0;
+    /* background-color: red; */
+}
+
+#breakfastWindowContent {
+    height: 100%;
+    width: 100%;
+}
+
+#breakfastWindowContent{
+    position: relative;
+    /* z-index: 5; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#mealPlanningWindow {
+    /* position: relative; */
+    /* height: 100%; */
+    /* z-index: 1; */
+    /* top: 0; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(124, 124, 146);
+}
+
+#recipeWindowContent, #breakfastWindowContent, #lunchWindowContent, #dinnerWindowContent, #snacksWindowContent {
+    /* position: relative; */
+    background-color: gray;
+    border: 2px solid black;
+    overflow-y: auto;
+    padding: 1em;
+    /* min-height: 100%; */
+    /* height: 0; */
+    /* min-height: 0; */
+    /* width: 0; */
+    /* position: absolute; */
+    /* top: 2.5%; */
+    /* left: auto; */
+    /* bottom: 0; */
+    /* left: 3%; */
+}
+
