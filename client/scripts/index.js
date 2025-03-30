@@ -2,7 +2,7 @@
 // const serverURL = "https://www.danhenrydev.com/api/mealPlanner";
 // import { url } from "inspector";
 import { serverURL } from "../helpers/serverURL.js";
-
+console.log(serverURL);
 // https://developers.google.com/identity/sign-in/web/sign-getElementsByName("email")
 // https://stackoverflow.com/questions/2264072/detect-a-finger-swipe-through-javascript-on-the-iphone-and-android
 // https://github.com/john-doherty/swiped-events/blob/master/src/swiped-events.js
