@@ -1,5 +1,5 @@
-// const serverURL = "http://127.0.0.1:3498/api/shoppinglist";
-// const serverURL = "https://www.danhenrydev.com/api/shoppinglist";
+// const serverURL = "http://127.0.0.1:3498/api/mealPlanner";
+// const serverURL = "https://www.danhenrydev.com/api/mealPlanner";
 // import { url } from "inspector";
 import { serverURL } from "../helpers/serverURL.js";
 

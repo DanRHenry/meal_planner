@@ -51,7 +51,7 @@ const MONGO = process.env.MONGODB;
 
 //! ---------- Disabling this lets the socket connect
 mongoose.connect(
-  `${MONGO}/shoppingList`,
+  `${MONGO}/mealPlanner`,
 //   { useNewUrlParser: true },
 //   { useUnifiedTopology: true }
 );
@@ -108,14 +108,14 @@ app.options("*", (req, res) => {
   }
 });
 
-app.use("/api/shoppinglist/user", userController)
+app.use("/api/mealPlanner/user", userController)
 
 
 app.use(requireValidation)
-app.use("/api/shoppinglist/ingredient", ingredientController)
-app.use("/api/shoppinglist/recipe", recipeController)
-app.use("/api/shoppinglist/recipeingredient", recipeIngredientController)
-app.use("/api/shoppinglist/weeklyplanning", weeklyPlanningController)
+app.use("/api/mealPlanner/ingredient", ingredientController)
+app.use("/api/mealPlanner/recipe", recipeController)
+app.use("/api/mealPlanner/recipeingredient", recipeIngredientController)
+app.use("/api/mealPlanner/weeklyplanning", weeklyPlanningController)
 // app.use("/api/jeopardy/user", user);
 // app.use("/api/jeopardy/questions", questions);
 // app.use("/api/jeopardy/gameplay", gameplay);
@@ -130,5 +130,5 @@ app.use("/api/shoppinglist/weeklyplanning", weeklyPlanningController)
 
 // Changed from app.listen to server.listen when implementing websocket
 server.listen(PORT, () =>
-  console.log(`The shoppingList server is running on Port: ${PORT}`)
+  console.log(`The mealPlanner server is running on Port: ${PORT}`)
 );
