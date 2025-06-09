@@ -8,61 +8,6 @@ const serverError = (res, error) => {
   });
 };
 
-// ------------------------ POST ----------------------
-
-router.post("/storeRecipe", async (req, res) => {
-  console.log("req.body: ", req.body)
-  try {
-    const recipeInfo = new Recipe({
-      recipeName: req.body.recipeName,
-      suggestedMeal: req.body.suggestedMeal,
-      ingredients: req.body.ingredients,
-      time: req.body.time,
-      temperature: req.body.temperature,
-      instructions: req.body.instructions,
-      numberOfServings: req.body.numberOfServings,
-      creator: req.body.creator,
-      family: req.body.family
-    });
-
-
-    const newRecipeInfo = await recipeInfo.save();
-    if (newRecipeInfo) {
-      console.log("newRecipe:", newRecipeInfo);
-    }
-    res.status(200).json({
-      newRecipeInfo: newRecipeInfo,
-      message: `Success! Recipe Saved!:${req.body}`,
-    });
-  } catch (err) {
-    // console.log(Recipe);
-    res.status(500).json({
-      ERROR: err.message,
-    });
-  }
-});
-
-// ------------------------- Find One -----------------------
-
-router.post("/find", async (req, res) => {
-  try {
-    console.log("req.body: ", await req.body)
-    const { recipeName, creator, family } = await req.body;
-    // console.log("aRecipeName:", await recipeName);
-    const findRecipe = await Recipe.findOne({ recipeName: recipeName });
-
-    findRecipe
-      ? res.status(200).json({
-          message: "Found!",
-          findRecipe,
-        })
-      : res.status(404).json({
-          message: `Can't Find the Recipe.`,
-        });
-  } catch (err) {
-    serverError(res, err);
-  }
-});
 
 // --------------------------Get All ---------------------
 router.get("/", async (req, res) => {
@@ -80,6 +25,110 @@ router.get("/", async (req, res) => {
     serverError(res, err);
   }
 });
+
+// ---------------------------- POST ---------------------
+
+router.post("/add", async (req, res) => {
+  try {
+    const {
+      recipeName,
+      suggestedMeal,
+      ingredients,
+      time,
+      temperature,
+      instructions,
+      numberOfServings,
+      creator,
+      family,
+    } = req.body;
+
+    const findRecipe =  await Recipe.findOne({
+      family: family,
+      recipeName: recipeName,
+      creator: creator
+    })
+
+    if (!findRecipe) {
+
+    }
+  }
+  catch (err) {
+
+  }
+})
+
+// ------------------------- Find One -----------------------
+
+router.post("/find", async (req, res) => {
+  try {
+    const { recipeName, creator, family } = await req.body;
+
+    console.log("searching for recipe", recipeName, creator, family)
+    const findRecipe = await Recipe.findOne({
+      recipeName: recipeName,
+      creator: creator,
+      family: family,
+    });
+
+    findRecipe
+      ? res.status(200).json({
+          message: "Found!",
+          findRecipe,
+        })
+      : res.status(404).json({
+          message: `Can't Find the Recipe.`,
+        });
+  } catch (err) {
+    serverError(res, err);
+  }
+});
+
+// ------------------------ PATCH ----------------------
+
+router.patch("/updateRecipe:id", async (req, res) => {
+  const { _id } = req.params;
+
+  const {
+    recipeName,
+    suggestedMeal,
+    ingredients,
+    time,
+    temperature,
+    instructions,
+    numberOfServings,
+    creator,
+    family,
+  } = req.body;
+
+  try {
+    const recipeInfo = new Recipe({
+      recipeName: recipeName,
+      suggestedMeal: suggestedMeal,
+      ingredients: ingredients,
+      time: time,
+      temperature: temperature,
+      instructions: instructions,
+      numberOfServings: numberOfServings,
+      creator: creator,
+      family: family,
+    });
+
+    const recipesearch = await Recipe.findOneAndUpdate({ id: _id }, recipeInfo);
+
+    if (recipesearch) {
+      const newRecipeInfo = await recipeInfo.save();
+      res.status(200).json({
+        newRecipeInfo: newRecipeInfo,
+        message: `Success! Recipe Saved!:${req.body}`,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      ERROR: err.message,
+    });
+  }
+});
+
 /* 
 ----------------------------- Delete Ingredient Endpoint ------------------------
 */

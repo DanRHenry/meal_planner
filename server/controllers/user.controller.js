@@ -22,7 +22,7 @@ router.post("/signup", async (req, res) => {
   try {
     const user = new User({
       email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, 13),
+      password: bcrypt.hashSync(req.body.password, "100d"),
       family: req.body.family,
     });
 
