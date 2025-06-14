@@ -99,22 +99,23 @@ router.post("/find", async (req, res) => {
 
 // --------------------------Get All ---------------------
 router.get("/getallingredients:family", async (req, res) => {
+  console.log("getting all ingredients...")
   const { family } = req.params;
 
   try {
     const getAllIngredients = await Ingredient.find();
-    const filteredIngredients = [];
+    const ingredients = [];
 
     for (let i = 0; i < getAllIngredients.length; i++) {
       if (getAllIngredients[i].family === family) {
-        filteredIngredients.push(getAllIngredients[i]);
+        ingredients.push(getAllIngredients[i]);
       }
     }
 
-    filteredIngredients
+    ingredients
       ? res.status(200).json({
           message: "All Ingredients:",
-          filteredIngredients,
+          ingredients,
         })
       : res.status(404).json({
           message: `No Ingredient Found!`,
