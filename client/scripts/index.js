@@ -284,14 +284,255 @@ async function handleShoppingListBtnClick() {
   }
 
   const shoppingListData = JSON.parse(sessionStorage.shoppingListData);
+
+  // buildShoppingListSection(shoppingListData);
+  if (!document.getElementById("shoppingListContainer")) {
+    createShoppingListSection();
+  }
+  populateShoppingList(shoppingListData.ingredients);
+  addShoppingListInput()
   const height = toggleMenuDimension("height");
   menuPageContentContainer.style.height = `${height}vh`;
-  buildShoppingListSection(shoppingListData);
 }
 
-function buildShoppingListSection(shoppingListData) {
-  // menuPageContentContainer.textContent = "Hello?";
-  // console.log("shoppingListData:", shoppingListData);
+function createShoppingListSection() {
+  const shoppingListContainer = document.createElement("div");
+  shoppingListContainer.id = "shoppingListContainer";
+  const shoppingListTable = document.createElement("table");
+  shoppingListTable.id = "shoppingListTable";
+  const shoppingListTableBody = document.createElement("tbody");
+  shoppingListTableBody.id = "shoppingListTableBody";
+
+  shoppingListTable.append(shoppingListTableBody);
+
+  shoppingListContainer.append(shoppingListTable);
+
+  removeExistingMenus();
+
+  return menuPageContentContainer.append(shoppingListContainer);
+}
+
+async function handlePostNewItem() {
+  const existingListItems = document.getElementsByClassName("item");
+  let newItem = document.getElementById("itemInput").value;
+
+  for (let i = 0; i < existingListItems.length; i++) {
+    if (
+      newItem.toLowerCase() == existingListItems[i].textContent.toLowerCase()
+    ) {
+      console.log("match");
+      document.getElementById("itemInput").textContent = "";
+      return;
+    }
+  }
+
+  const qty = 1;
+  if (newItem.length > 0) {
+    await postNewIngredient(newItem, qty);
+    shoppingListData = await fetchShoppingList();
+    loadShoppingList()
+  }
+}
+
+function populateShoppingList(items) {
+  const shoppingListTableBody = document.getElementById(
+    "shoppingListTableBody"
+  );
+  shoppingListTableBody.innerHTML = "";
+
+  const shoppingListItems =
+    document.getElementsByClassName("shoppingListItems");
+
+  for (let i = shoppingListItems.length - 1; i > 0; i--) {
+    shoppingListItems[i]?.remove();
+  }
+
+  document.getElementById("headers")?.remove();
+
+  const headers = document.createElement("tr");
+  headers.id = "headers";
+
+  const checkboxHeader = document.createElement("th");
+  checkboxHeader.id = "checkboxHeader";
+  checkboxHeader.textContent = "Select All";
+  checkboxHeader.addEventListener("click", handleSelectAllClick);
+  headers.append(checkboxHeader);
+
+  const ingredientHeader = document.createElement("th");
+  ingredientHeader.id = "ingredientHeader";
+  ingredientHeader.textContent = "Ingredient";
+  headers.append(ingredientHeader);
+
+  const qtyHeader = document.createElement("th");
+  qtyHeader.id = "qtyHeader";
+  // document.getElementById("qtyHeader").textContent = "Qty"
+
+  headers.append(qtyHeader);
+
+  // const shoppingListTitle = document.createElement("div");
+  // shoppingListTitle.textContent = "Shopping List";
+  // shoppingListTitle.id = "shoppingListTitle";
+
+  shoppingListTableBody?.append(headers);
+
+  // if (!document.getElementById("shoppingListTitle")) {
+  //   document.getElementById("shoppingListTable").before(shoppingListTitle);
+  // }
+  for (let ingredient of items) {
+    const shoppingListItems = document.createElement("tr");
+    shoppingListItems.className = "shoppingListItems";
+
+    const check = document.createElement("td");
+    check.className = "check";
+    const checkBox = document.createElement("input");
+    checkBox.type = "checkbox";
+    checkBox.className = "shoppingListCheckBoxes";
+    check.append(checkBox);
+
+    const item = document.createElement("td");
+    item.className = "item";
+    item.textContent = ingredient.ingredientName;
+    item.style.textDecoration = "none";
+    item.addEventListener("click", handleShoppingListCheckboxClick);
+
+    checkBox.addEventListener("click", handleShoppingListCheckboxClick);
+
+    function handleShoppingListCheckboxClick() {
+      if (item.style.textDecoration === "line-through") {
+        item.style.textDecoration = "none";
+        checkBox.checked = false;
+      } else if (item.style.textDecoration === "none") {
+        item.style.textDecoration = "line-through";
+        checkBox.checked = true;
+      }
+    }
+    const itemQuantity = document.createElement("td");
+    itemQuantity.className = "qty";
+    itemQuantity.addEventListener("change", handleUpdatingItemQuantity);
+
+    async function handleUpdatingItemQuantity() {
+      const URL = `${serverURL}/ingredient/updateIngredient`;
+    }
+
+    const qtyInput = document.createElement("input");
+    qtyInput.placeholder = "1";
+    qtyInput.type = "number";
+    qtyInput.min = "1";
+    qtyInput.value = 1;
+
+    itemQuantity.append(qtyInput);
+
+    shoppingListItems.append(check, item, itemQuantity);
+
+    if (document.getElementsByClassName("qty")) {
+      document.getElementById("qtyHeader").textContent = "Qty";
+    }
+    shoppingListTableBody?.append(shoppingListItems);
+  }
+}
+
+function handleSelectAllClick() {
+  selectAllFlag = !selectAllFlag;
+  const shoppingListCheckBoxes = document.getElementsByClassName(
+    "shoppingListCheckBoxes"
+  );
+  for (let i = 0; i < shoppingListCheckBoxes.length; i++) {
+    shoppingListCheckBoxes[i].checked = selectAllFlag;
+    if (selectAllFlag === false) {
+      document.getElementsByClassName("item")[i].style.textDecoration = "none";
+    } else {
+      document.getElementsByClassName("item")[i].style.textDecoration =
+        "line-through";
+    }
+  }
+}
+
+function addShoppingListInput() {
+  const shoppingListTableBody = document.getElementById(
+    "shoppingListTableBody"
+  );
+  const shoppingListTableInputLine = document.createElement("tr");
+  shoppingListTableInputLine.className = "shoppingListTableInputLine";
+
+  const check = document.createElement("td");
+  check.className = "check";
+
+  const addNewItemBtn = document.createElement("button");
+  addNewItemBtn.id = "addNewItem";
+  addNewItemBtn.className = "button";
+  addNewItemBtn.textContent = "+";
+  addNewItemBtn.addEventListener("click", handlePostNewItem);
+
+  const item = document.createElement("td");
+  item.className = "item";
+  const itemInput = document.createElement("input");
+  itemInput.id = "itemInput";
+  itemInput.type = "text";
+  itemInput.required = "true";
+  itemInput.placeholder = "Enter New Item";
+  item.append(itemInput);
+
+  itemInput.addEventListener("keypress", handlPostNewItemKeypress);
+  function handlPostNewItemKeypress(e) {
+    if (e.key === "Enter" || e.keyCode === "13" || e.keyCode === "9") {
+      e.preventDefault();
+      handlePostNewItem();
+    }
+  }
+
+  const removeSelectedItems = document.createElement("td");
+  removeSelectedItems.id = "removeSelectedItemsContainer";
+
+  const removeSelectedItemsBtn = document.createElement("button");
+  removeSelectedItemsBtn.addEventListener(
+    "click",
+    handleRemovingShoppingListItems
+  );
+  removeSelectedItemsBtn.id = "removeSelectedItems";
+  removeSelectedItemsBtn.textContent = "Remove";
+  removeSelectedItems.append(removeSelectedItemsBtn);
+
+  shoppingListTableInputLine.append(removeSelectedItems, item, addNewItemBtn);
+
+  if (shoppingListTableBody) {
+    shoppingListTableBody.append(shoppingListTableInputLine);
+  }
+}
+
+async function handleRemovingShoppingListItems() {
+  const shoppingListCheckBoxes = document.getElementsByClassName(
+    "shoppingListCheckBoxes"
+  );
+  const itemsToDelete = document.getElementsByClassName("item");
+
+  for (let i = 0; i < shoppingListCheckBoxes.length; i++) {
+    if (shoppingListCheckBoxes[i].checked === true) {
+      const URL = `${serverURL}/ingredient/delete/`;
+
+      let delItem = {
+        ingredientName: itemsToDelete[i].textContent,
+        family: sessionStorage.family,
+      };
+      try {
+        const res = await fetch(URL, {
+          method: "DELETE",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify(delItem),
+        });
+        const data = await res.json();
+        if (data.message === "The ingredient was successfully deleted!") {
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+  shoppingListData = await fetchShoppingList();
+  loadShoppingList()
 }
 
 function removeRecipeIngredients() {
@@ -335,7 +576,6 @@ function checkForToken() {
 }
 
 async function updateShoppingList() {
-  await fetchShoppingList();
   setShoppingListToSessionStorage();
 }
 

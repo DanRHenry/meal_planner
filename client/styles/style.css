@@ -47,3 +47,41 @@ body {
     transition: height .25s ease-in-out;
     overflow: hidden;
 }
+
+#shoppingListContainer{
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    min-height: 100%;
+}
+
+#shoppingListTitle, .headers, #mealPlanningTitle {
+     padding-top: 3px;
+    font-weight: bolder;
+    padding-left: 1em;
+    text-align: center;
+    min-width: fit-content;
+    background-color: gray;
+    height: 2em;
+    border-bottom: 2px solid black;
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+    margin-top: 2px;
+}
+
+.mainContent,.shoppingListTableInputLine, .shoppingListItems, .recipeGroup{
+    text-align: center;
+    padding-left: 10em;
+    margin-left: 10em;
+    background-color: rgb(211, 211, 211);
+    user-select: none;
+}
+
+.shoppingListTableInputLine:nth-child(odd), .shoppingListItems:nth-child(odd) {
+    background-color: white;
+}
+
+.mainContent:hover, .shoppingListItems:hover, .recipeGroup:hover {
+    background-color: gray;
+    color: white;
+}
